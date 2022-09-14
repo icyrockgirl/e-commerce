@@ -1,0 +1,27 @@
+<div class="container">
+ <h4>Order History</h4>
+</div>
+<div class="container p40">
+  <table class="table">
+    <thead class="bg-light">
+      <th scope="col">Product Name</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Order ID</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders | slice: (page-1) * pageSize : page * pageSize">
+        <td>{{order.title}}</td>
+        <td>{{order.quantity}}</td>
+        <td>1234</td>
+      </tr>
+    </tbody>
+    <div>
+      <ngb-pagination [collectionSize]="orders.length" class="d-flex justify-content-end"
+      [(page)]="page" [pageSize]="pageSize" aria-label="Default pagination"></ngb-pagination>
+    </div>
+  </table>
+</div>
+
+
+
+

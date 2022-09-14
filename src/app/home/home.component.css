@@ -1,0 +1,30 @@
+.card-img-top {
+  height: 15vw;
+  object-fit: cover;
+}
+
+.card{
+  margin-bottom: 20px;
+}
+
+.card-title{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-title:hover{
+  white-space: normal;
+}
+
+.row1{
+  display: inline-flex;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+
+.dropdown{
+  margin-left: 20px;
+}
+

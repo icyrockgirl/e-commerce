@@ -1,0 +1,221 @@
+<div class="d-flex justify-content-center" *ngIf="isLoading" style="align-items: center; height: 100vh;">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<div class="container" *ngIf="!isLoading && !showFinalPage">
+  <main>
+    <div class="row g-5">
+      <div class="col-md-5 col-lg-5 order-md-last">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-primary">Your cart</span>
+          <span class="badge bg-primary rounded-pill">{{cartQuantity}}</span>
+        </h4>
+        <ul class="list-group mb-3">
+          <ng-container *ngFor="let cart of cartArray">
+            <li class="list-group-item d-flex justify-content-between lh-sm">
+              <div>
+                <h6 class="my-0" style="margin-right: 40px;">{{cart.title}}</h6>
+                <small class="text-muted">{{cart.category}}</small>
+              </div>
+              <span class="text-muted" style="white-space: nowrap;">
+                {{cart.price | currency: 'USD'}} x {{cart.quantity}} = {{cart.price * cart.quantity | currency: 'USD'}}</span>
+            </li>
+          </ng-container>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Total (USD)</span>
+            <strong>{{cartPrice | currency: 'USD'}}</strong>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-md-7 col-lg-7">
+        <h4 class="mb-3">Billing address</h4>
+        <form class="needs-validation" [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+          <div class="row g-3" formGroupName="billingAddress">
+            <div class="col-sm-6">
+              <label for="firstName" class="form-label">First name</label>
+              <input type="text" class="form-control" id="firstName" placeholder="" value=""
+              formControlName="firstName">
+              <div class="invalid-feedback"
+              *ngIf="!checkoutForm.get('billingAddress.firstName').valid && checkoutForm.get('billingAddress.firstName').touched">
+                Valid first name is required.
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label">Last name</label>
+              <input type="text" class="form-control" id="lastName" placeholder="" value=""
+              formControlName="lastName">
+              <div class="invalid-feedback"
+              *ngIf="!checkoutForm.get('billingAddress.lastName').valid && checkoutForm.get('billingAddress.lastName').touched">
+                Valid last name is required.
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
+              <input type="email" class="form-control" id="email" placeholder="you@example.com"
+              formControlName="email">
+              <div class="invalid-feedback" *ngIf="!checkoutForm.get('billingAddress.email').valid && checkoutForm.get('billingAddress.email').touched">
+                Please enter a valid email address for shipping updates.
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="phone" class="form-label">Mobile Number</label>
+              <input type="tel" class="form-control" id="phone" placeholder="123-45-678"
+              formControlName="mobile">
+              <div *ngIf="!checkoutForm.get('billingAddress.mobile').valid && checkoutForm.get('billingAddress.mobile').touched">
+                <div class="invalid-feedback" *ngIf="checkoutForm.get('billingAddress.mobile')?.errors['required']">
+                  Please enter your mobile number.
+                </div>
+                <div class="invalid-feedback" *ngIf="checkoutForm.get('billingAddress.mobile')?.errors['pattern']">
+                  Invalid mobile number.
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="address" class="form-label">Address</label>
+              <input type="text" class="form-control" id="address" placeholder="1234 Main St"
+              formControlName="address1">
+              <div class="invalid-feedback" *ngIf="!checkoutForm.get('billingAddress.address1').valid && checkoutForm.get('billingAddress.address1').touched">
+                Please enter your shipping address.
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="address2" class="form-label">Address 2 <span class="text-muted">(Optional)</span></label>
+              <input type="text" class="form-control" id="address2" placeholder="Apartment or suite"
+              formControlName="address2">
+            </div>
+
+            <div class="col-md-5">
+              <label for="state" class="form-label">State</label>
+              <select class="form-select" id="state"
+              formControlName="state" (change)="onSelectState($event.target.value)">
+                <option value="choose" disabled>Select State</option>
+                <option *ngFor="let place of places" #place [value]="place.state">
+                  {{place.state}}</option>
+              </select>
+              <div class="invalid-feedback" *ngIf="!checkoutForm.get('billingAddress.state').valid && checkoutForm.get('billingAddress.state').touched">
+                Please select a valid state.
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <label for="city" class="form-label">City</label>
+              <select class="form-select" id="city"
+              formControlName="city">
+                <option value="choose" disabled>Select City</option>
+                <option *ngFor="let city of cities" [value]="city">{{city}}</option>
+              </select>
+              <div class="invalid-feedback" *ngIf="!checkoutForm.get('billingAddress.city').valid && checkoutForm.get('billingAddress.city').touched">
+                Please provide a valid city.
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label for="zip" class="form-label">Zip</label>
+              <input type="text" class="form-control" id="zip" placeholder=""
+              formControlName="zip">
+              <div class="invalid-feedback" *ngIf="!checkoutForm.get('billingAddress.zip').valid && checkoutForm.get('billingAddress.zip').touched">
+                Zip code required.
+              </div>
+            </div>
+
+          </div>
+
+          <hr class="my-4">
+
+          <h4 class="mb-3">Payment</h4>
+
+        <div formGroupName="paymentDetails">
+          <div class="my-3">
+            <div class="form-check" *ngFor="let pay of paymentMethods; let i=index">
+              <input [id]="i" type="radio" class="form-check-input" [value]="pay"
+              formControlName="paymentMethod">
+              <label class="form-check-label" [for]="i">{{pay}}</label>
+            </div>
+          </div>
+
+          <div class="row gy-3">
+            <div class="col-md-6">
+              <label for="cc-name" class="form-label">Name on card</label>
+              <input type="text" class="form-control" id="cc-name"
+              formControlName="cardName">
+              <small class="text-muted">Full name as displayed on card</small>
+              <div class="invalid-feedback" *ngIf="!checkoutForm.get('paymentDetails.cardName').valid && checkoutForm.get('paymentDetails.cardName').touched">
+                Name on card is required
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="cc-number" class="form-label">Credit card number</label>
+              <input type="text" class="form-control" id="cc-number"
+              formControlName="cardNumber">
+              <div *ngIf="!checkoutForm.get('paymentDetails.cardNumber').valid && checkoutForm.get('paymentDetails.cardNumber').touched">
+                <div class="invalid-feedback" *ngIf="checkoutForm.get('paymentDetails.cardNumber')?.errors['required']">
+                  Credit card number is required
+                </div>
+                <div class="invalid-feedback" *ngIf="checkoutForm.get('paymentDetails.cardNumber')?.errors['pattern']">
+                  Invalid Credit card number
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label for="cc-expiration" class="form-label">Expiration</label>
+              <input type="text" class="form-control" id="cc-expiration" placeholder="MM/YY"
+              formControlName="expiration">
+              <div *ngIf="!checkoutForm.get('paymentDetails.expiration').valid && checkoutForm.get('paymentDetails.expiration').touched">
+                <div class="invalid-feedback" *ngIf="checkoutForm.get('paymentDetails.expiration')?.errors['required']">
+                  Expiration date required
+                </div>
+                <div class="invalid-feedback" *ngIf="checkoutForm.get('paymentDetails.expiration')?.errors['pattern']">
+                  Date Format is invalid
+                </div>
+                <div class="invalid-feedback" *ngIf="checkoutForm.get('paymentDetails.expiration')?.errors['invalidDate']">
+                  Card is expired
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label for="cc-cvv" class="form-label">CVV</label>
+              <input type="text" class="form-control" id="cc-cvv"
+              formControlName="cvv">
+              <div *ngIf="!checkoutForm.get('paymentDetails.cvv').valid && checkoutForm.get('paymentDetails.cvv').touched">
+                <div class="invalid-feedback" *ngIf="checkoutForm.get('paymentDetails.cvv')?.errors['required']">
+                  Security code required
+                </div>
+                <div class="invalid-feedback" *ngIf="checkoutForm.get('paymentDetails.cvv')?.errors['pattern']">
+                  Invalid Format
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <hr class="my-4">
+          <button class="w-100 btn btn-primary btn-lg" type="submit"
+          [disabled]="!checkoutForm.valid">Place Order</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2017–2021 Company Name</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a>Privacy</a></li>
+      <li class="list-inline-item"><a>Terms</a></li>
+      <li class="list-inline-item"><a>Support</a></li>
+    </ul>
+  </footer>
+</div>
+
+<app-checkout-review *ngIf="!isLoading && showFinalPage"
+[orderSummary]="cartArray"></app-checkout-review>

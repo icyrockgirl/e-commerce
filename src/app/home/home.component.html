@@ -1,0 +1,63 @@
+<ng-template appPlaceholder></ng-template>
+
+<div class="d-flex justify-content-center" *ngIf="isLoading" style="align-items: center; height: 100vh;">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row1">
+    <div>
+      <span><strong>Sort By:</strong></span>
+    </div>
+      <div class="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+        appDocClick>
+          Category
+        </button>
+        <ul class="dropdown-menu">
+          <li><button class="dropdown-item pointer" type="button"
+          (click)="onClickCategory('All')">All</button></li>
+          <li><button class="dropdown-item pointer" type="button"
+          (click)="onClickCategory('men\'s clothing')">Men's Clothing</button></li>
+          <li><button class="dropdown-item pointer" type="button"
+          (click)="onClickCategory('women\'s clothing')">Women's Clothing</button></li>
+          <li><button class="dropdown-item pointer" type="button"
+          (click)="onClickCategory('jewelery')">Jewellery</button></li>
+          <li><button class="dropdown-item pointer" type="button"
+          (click)="onClickCategory('electronics')">Electronics</button></li>
+        </ul>
+      </div>
+      <div class="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+        appDocClick>
+          Price
+        </button>
+        <ul class="dropdown-menu">
+          <li><button class="dropdown-item pointer" type="button"
+          (click)="onClickPrice('l-to-h')">Lowest To Highest</button></li>
+          <li><button class="dropdown-item pointer" type="button"
+          (click)="onClickPrice('h-to-l')">Highest to Lowest</button></li>
+        </ul>
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-4" *ngFor="let product of productsList | filter:category | sort:priceCategory; let i=index">
+      <div class="card" style="width: 18rem;">
+        <img [src]="product.image" class="card-img-top" alt="product image">
+        <div class="card-body">
+          <h5 class="card-title">{{product.title}}</h5>
+          <p class="card-text capitalize">{{product.category}} - {{product.price | currency: 'USD'}}</p>
+          <a class="btn btn-dark w-100" style="margin-bottom: 10px;" (click)="addToCart(product.id, product.title)">Add To Cart</a>
+          <a class="btn btn-dark w-100" (click)="navigateToDetails(product.id)">View Product Details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,28 @@
+<ng-template appPlaceholder></ng-template>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <img [src]="productItem.image">
+    </div>
+    <div class="col-md-6">
+       <h2>{{productItem.title}}</h2>
+       <p class="capitalize">{{productItem.category}}</p>
+       <div class="box">
+          <span class="rating">{{productItem.rating.rate}} <i class="fa fa-star" aria-hidden="true"></i></span>
+          |
+          <span class="rating">{{productItem.rating.count}} Ratings</span>
+       </div>
+       <h4>{{productItem.price | currency: 'USD'}}</h4>
+       <hr>
+       <div>
+         <h5>Product Description</h5>
+         <p>{{productItem.description}}</p>
+       </div>
+       <hr>
+       <div class="control-buttons">
+        <button class="btn btn-dark btn-lg" (click)="addItem(productItem.title)">Add To Cart</button>
+     </div>
+    </div>
+  </div>
+</div>

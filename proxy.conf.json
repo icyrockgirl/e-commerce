@@ -1,0 +1,7 @@
+{
+  "/products": {
+    "target": "https://fakestoreapi.com/products",
+    "secure": true,
+    "changeOrigin": true
+  }
+}

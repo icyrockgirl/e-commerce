@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin-top: 30px;
+}
+
+.table{
+  width: 80%;
+}
+
+.p20{
+  padding-bottom: 20px
+}
+
+.p40{
+  padding-bottom: 40px;
+}

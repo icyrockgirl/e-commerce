@@ -1,0 +1,29 @@
+.container{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+img{
+  width: 80%;
+  height: 85%;
+}
+
+.btn-outline-dark{
+   margin-left: 10px;
+}
+
+.box{
+  border: 1px solid grey;
+  padding: 5px;
+  width: max-content;
+  margin-bottom: 20px;
+}
+
+.rating{
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.fa-star{
+  color: #FFB200;
+}

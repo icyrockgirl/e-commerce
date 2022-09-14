@@ -1,0 +1,30 @@
+.fa-shopping-cart{
+  font-size: 1.3em;
+  margin-right: 2px;
+}
+
+.red-circle{
+  background-color: red;
+  border-radius: 100%;
+  width: 1rem;
+  height: 1rem;
+}
+
+.rounded-circle{
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  font-size: 12px;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding-top: 2px;
+}
+
+.none{
+  border: none !important;
+  background: none !important;
+}
+
+.mR{
+  margin-right: 3rem;
+}

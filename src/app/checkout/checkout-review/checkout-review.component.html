@@ -1,0 +1,24 @@
+<div class="container">
+  <h3 class="text-success">Order is placed succesfully! 😁</h3>
+  <p>Order ID: 123456</p>
+  <hr>
+  <h4>Thank you for shopping with us.</h4>
+  <button class="w-20 btn btn-outline-dark" routerLink="/shop">Continue Shopping</button>
+  <div class="order-summary" style="margin-top: 20px;">
+    <h4>Order Summary</h4>
+    <a class="list-group-item clearfix product" *ngFor="let order of orderSummary">
+      <div class="float-start">
+        <img [src]="order.image"
+        alt="recipe" class="img-responsive" style="max-height: 100px; margin-right: 20px;">
+      </div>
+      <div class="float-start">
+        <h5 class="list-group-item-heading">{{order.title}}</h5>
+      </div>
+      <span class="float-end">
+        <h5>{{order.price | currency: 'USD'}} x {{order.quantity}} = {{order.price * order.quantity | currency: 'USD'}}</h5>
+      </span>
+     </a>
+  </div>
+</div>
+
+
